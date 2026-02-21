@@ -1,24 +1,24 @@
 
 ```
-#             ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗                 
-#            ██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝                 
-#            ██║     ██║     ███████║██║   ██║██║  ██║█████╗                   
-#            ██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝                   
-#            ╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗                 
-#             ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝                 
-#                                                                                
-#    ████████╗██╗   ██╗██╗    ████████╗ ██████╗  ██████╗ ██╗     ███████╗          
-#    ╚══██╔══╝██║   ██║██║    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝          
-#       ██║   ██║   ██║██║       ██║   ██║   ██║██║   ██║██║     ███████╗          
-#       ██║   ██║   ██║██║       ██║   ██║   ██║██║   ██║██║     ╚════██║          
-#       ██║   ╚██████╔╝██║       ██║   ╚██████╔╝╚██████╔╝███████╗███████║          
-#       ╚═╝    ╚═════╝ ╚═╝       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝          
-#                                                                                  
+#             ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗                #
+#            ██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝                #
+#            ██║     ██║     ███████║██║   ██║██║  ██║█████╗                  #
+#            ██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝                  #
+#            ╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗                #
+#             ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝                #
+#                                                                             #
+#    ████████╗██╗   ██╗██╗    ████████╗ ██████╗  ██████╗ ██╗     ███████╗     #
+#    ╚══██╔══╝██║   ██║██║    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██╔════╝     #
+#       ██║   ██║   ██║██║       ██║   ██║   ██║██║   ██║██║     ███████╗     #
+#       ██║   ██║   ██║██║       ██║   ██║   ██║██║   ██║██║     ╚════██║     #
+#       ██║   ╚██████╔╝██║       ██║   ╚██████╔╝╚██████╔╝███████╗███████║     #
+#       ╚═╝    ╚═════╝ ╚═╝       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚══════╝     #
+#                                                                             #
 ```
 
 **TUI companion tools for Claude Code — settings management and usage monitoring.**
 
-Addressing small pain points for solo developers, and small teams using Claude Code CLI.
+Addressing small pain points for solo developers/small teams using Claude Code CLI.
 
 ---
 
@@ -26,11 +26,11 @@ Addressing small pain points for solo developers, and small teams using Claude C
 
 ### claude-tui-settings
 
-> **The pain point:** Claude Code settings are scattered across 5 scopes with confusing precedence. Where is that setting actually coming from?
+**The pain point:** Claude Code settings are scattered across 5 scopes with confusing precedence. Where is that setting actually coming from?
 
-Solution: A Textual TUI dashboard that allows quick clarity and centralized control over Claude Code's multi-scope project settings. 
+*Solution:* A Textual TUI dashboard that allows quick clarity and centralized control over Claude Code's multi-scope project settings. 
 
-[!TIP] I use it quickly run it ahead of initialising a new project, or run claude with `claude-tui-settings --report && claude` to recap what settings/plugins/MCPs etc will be available ready to go.
+> I run it ahead of initialising a new project to quickly sync custom commands/skills/settings etc, or run with `claude-tui-settings --report && claude` to recap what settings/plugins/MCPs etc will be available ready to go in the claude instance.
 
 
 ![claude-tui-settings screenshot](assets/settings-screenshot.png)
@@ -39,11 +39,11 @@ Solution: A Textual TUI dashboard that allows quick clarity and centralized cont
 
 > **The pain point:** Running `/usage` all the time is a pain - it's hard to see how you're pacing against your rate limit window.
 
-Solution: A visual, pace-aware CLI monitor that shows your consumption pace vs. elapsed time so you can adjust before you hit the wall. 
-[!TIP] I like to run with `claude-tui-usage --loop` and have it refresh every 10 mins or so.
+*Solution:* A visual, pace-aware CLI monitor that shows your consumption pace vs. elapsed time so you can adjust before you hit the wall.
+> I like to run with `claude-tui-usage --loop` in a small terminal window, where it'll refresh every 5 mins or so.
 
 <p align="center">
-  <img src="assets/usage-screenshot.png" alt="claude-tui-usage screenshot" width="600">
+  <img src="assets/usage-screenshot.png" alt="claude-tui-usage screenshot" width="500">
 </p>
 
 ---
@@ -85,8 +85,16 @@ claude-tui-usage --loop      # Continuous monitoring
 | claude-tui-settings | >= 3.10 | [Textual](https://textual.textualize.io/), httpx |
 | claude-tui-usage | >= 3.9 | python-dateutil, [`expect`](https://core.tcl-lang.org/expect/) |
 
-**claude-tui-settings** requires the `$CLAUDE_REPO` environment variable pointing to your Claude Code resource repository:
 
+
+### NB: This is crucial to the use case: -
+The TUI points to a local dir which serves as a central repo for all claude resources.  Each project is then creating symlinks to reference these.
+
+*Why?*
+I constantly refine and update my custom commands/skills etc so I find updating a git-versioned custom plugin, pushing the repo, pulling back to my claude project (+ then actually ensuring that it *has* updated) is painful. So I prefer to link it directly to cut out this lead time until such time as I am no longer updating so frequently.
+
+
+**claude-tui-settings** requires the `$CLAUDE_REPO` environment variable pointing to your Claude Code resource repository:
 ```bash
 export CLAUDE_REPO=/path/to/your/claude-repo
 ```
