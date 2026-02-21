@@ -26,23 +26,24 @@ Addressing small pain points for solo developers, and small teams using Claude C
 
 ### claude-tui-settings
 
-> **The problem:** Claude Code settings are scattered across 5 scopes with confusing precedence. Where is that setting actually coming from?
+> **The pain point:** Claude Code settings are scattered across 5 scopes with confusing precedence. Where is that setting actually coming from?
 
-A Textual TUI dashboard that gives you clarity and centralized control over Claude Code's multi-scope project settings. 
-> [!TIP] I use it quickly run it ahead of initialising a new project, or run claude with `claude-tui-settings --report && claude` to recap what settings/plugins/MCPs etc will be available ready to go.
+Solution: A Textual TUI dashboard that allows quick clarity and centralized control over Claude Code's multi-scope project settings. 
+
+[!TIP] I use it quickly run it ahead of initialising a new project, or run claude with `claude-tui-settings --report && claude` to recap what settings/plugins/MCPs etc will be available ready to go.
 
 
 ![claude-tui-settings screenshot](assets/settings-screenshot.png)
 
 ### claude-tui-usage
 
-> **The Pain Point:** Running `/usage` all the time is a pain - it's hard to see how you're pacing against your rate limit window.
+> **The pain point:** Running `/usage` all the time is a pain - it's hard to see how you're pacing against your rate limit window.
 
-A visual, pace-aware CLI monitor that shows your consumption pace vs. elapsed time so you can adjust before you hit the wall. 
-> [!TIP] I like to run with `--loop` and have it refresh every 10 mins or so...
+Solution: A visual, pace-aware CLI monitor that shows your consumption pace vs. elapsed time so you can adjust before you hit the wall. 
+[!TIP] I like to run with `claude-tui-usage --loop` and have it refresh every 10 mins or so.
 
 <p align="center">
-  <img src="assets/usage-screenshot.png" alt="claude-tui-usage screenshot" width="700">
+  <img src="assets/usage-screenshot.png" alt="claude-tui-usage screenshot" width="600">
 </p>
 
 ---
