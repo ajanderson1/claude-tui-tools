@@ -41,7 +41,9 @@ A Textual TUI dashboard that gives you clarity and centralized control over Clau
 A visual, pace-aware CLI monitor that shows your consumption pace vs. elapsed time so you can adjust before you hit the wall. 
 > [!TIP] I like to run with `--loop` and have it refresh every 10 mins or so...
 
-![claude-tui-usage screenshot](assets/usage-screenshot.png)
+<p align="center">
+  <img src="assets/usage-screenshot.png" alt="claude-tui-usage screenshot" width="700">
+</p>
 
 ---
 
