@@ -36,7 +36,7 @@ Addressing small pain points for solo developers/small teams using Claude Code C
 
 ### claude-tui-usage
 
-> **The pain point:** Running `/usage` all the time is a pain - it's hard to see how you're pacing against your rate limit window.
+**The pain point:** Running `/usage` all the time is a pain - it's hard to see how you're pacing against your rate limit window.
 
 *Solution:* A visual, pace-aware CLI monitor that shows your consumption pace vs. elapsed time so you can adjust before you hit the wall.
 > I like to run with `claude-tui-usage --loop` in a small terminal window, where it'll refresh every 5 mins or so.
