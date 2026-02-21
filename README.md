@@ -32,7 +32,6 @@ Addressing small pain points for solo developers/small teams using Claude Code C
 
 > I run it ahead of initialising a new project to quickly sync custom commands/skills/settings etc, or run with `claude-tui-settings --report && claude` to recap what settings/plugins/MCPs etc will be available ready to go in the claude instance.
 
-
 ![claude-tui-settings screenshot](assets/settings-screenshot.png)
 
 ### claude-tui-usage

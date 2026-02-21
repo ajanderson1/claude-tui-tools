@@ -1,4 +1,66 @@
+# ============================================
+# .gitignore — AI Tools & Assistants + Project
+# ============================================
+
+# ---------------------------
+# OS & Editor Files
+# ---------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ---------------------------
+# AI Assistant Directories
+# ---------------------------
+.claude/
+.cursor/
+.copilot/
+.windsurf/
+.codeium/
+.amazonq/
+.codewhisperer/
+.tabnine/
+.sourcegraph/
+.continue/
+.codex/
+.augment/
+.roo/
+.cline/
+.devin/
+.bolt/
+.serena/
+.ai/
+
+# ---------------------------
+# AI Config & Rule Files
+# ---------------------------
+CLAUDE.md
+agents.md
+codex.md
+bootstrap.json
+.airc
+.cursorrules
+.cursorignore
+.cursorindexingignore
+.continuerc.json
+.clinerules
+.clineignore
+.roomodes
+.tabnine_root
+.aider*
+.aiderignore
+.github/copilot-instructions.md
+.mcp.json
+
+# ---------------------------
 # Python
+# ---------------------------
 __pycache__/
 *.py[cod]
 *$py.class
@@ -8,46 +70,26 @@ __pycache__/
 *.egg-info/
 dist/
 build/
-
-# Virtual environments
 .venv/
 venv/
-
-# Testing
 .pytest_cache/
 
-# Build artifacts
+# ---------------------------
+# JavaScript / Node
+# ---------------------------
 node_modules/
 
-# Editors
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-._*
-
-# Logs
+# ---------------------------
+# Logs & Temp Files
+# ---------------------------
 *.log
+/tmp/
 
-# Claude Code local config
-.claude/
-
-# Tool artifacts
+# ---------------------------
+# Project-Specific
+# ---------------------------
 .playwright-mcp/
-.serena/
-.mcp.json
 .worktrees/
-
-# Dev-only artifacts
 .self_heal/
 audit-*.json
 docs/
-
-# Temporary files
-/tmp/
