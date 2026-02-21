@@ -32,7 +32,7 @@ A Textual TUI dashboard that gives you clarity and centralized control over Clau
 > [!TIP] I use it quickly run it ahead of initialising a new project, or run claude with `claude-tui-settings --report && claude` to recap what settings/plugins/MCPs etc will be available ready to go.
 
 
-<!-- Screenshot placeholder: ![settings](assets/settings.gif) -->
+![claude-tui-settings screenshot](assets/settings-screenshot.png)
 
 ### claude-tui-usage
 
@@ -41,7 +41,7 @@ A Textual TUI dashboard that gives you clarity and centralized control over Clau
 A visual, pace-aware CLI monitor that shows your consumption pace vs. elapsed time so you can adjust before you hit the wall. 
 > [!TIP] I like to run with `--loop` and have it refresh every 10 mins or so...
 
-<!-- Screenshot placeholder: ![usage](assets/usage.gif) -->
+![claude-tui-usage screenshot](assets/usage-screenshot.png)
 
 ---
 
