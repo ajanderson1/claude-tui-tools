@@ -132,6 +132,17 @@ async def test_quit_with_no_changes(tmp_path):
 
 
 @pytest.mark.asyncio
+async def test_ctrl_x_quits_with_no_changes(tmp_path):
+    """Test that Ctrl+X exits immediately with no pending changes."""
+    config = _make_test_config(tmp_path)
+    app = BootstrapApp(config=config)
+    async with app.run_test(size=(80, 24)) as pilot:
+        await pilot.press("ctrl+x")
+        await pilot.pause()
+        assert not app.is_running
+
+
+@pytest.mark.asyncio
 async def test_alt_jump_keys(tmp_path):
     """Test Alt+N shortcuts for section jumping."""
     config = _make_test_config(tmp_path)
