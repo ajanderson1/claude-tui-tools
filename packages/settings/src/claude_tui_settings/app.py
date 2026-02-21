@@ -90,6 +90,7 @@ class BootstrapApp(App):
         Binding("ctrl+l", "load_preset", "Load", show=True),
         Binding("q", "quit_app", "Quit", show=True),
         Binding("ctrl+q", "quit_app", "Quit", show=False),
+        Binding("ctrl+x", "quit_app", "Quit", show=False),
         Binding("alt+1", "jump(0)", "Overview", show=False),
         Binding("alt+2", "jump(1)", "Perms", show=False),
         Binding("alt+3", "jump(2)", "Commands", show=False),
