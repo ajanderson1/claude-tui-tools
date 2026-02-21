@@ -1,0 +1,140 @@
+{
+  "app_command": "cd /tmp/test_area && python -m claude_tui_settings",
+  "session_name": "tui-024-diag",
+  "width": 80,
+  "height": 24,
+  "startup_delay": 8.0,
+  "tests": [
+    {
+      "name": "DIAG 1: App loaded",
+      "steps": [],
+      "assertions": [
+        {"type": "contains", "text": "claude-bootstrap"}
+      ]
+    },
+    {
+      "name": "DIAG 2: Navigate to Settings via Down x8",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings"}
+      ]
+    },
+    {
+      "name": "DIAG 3: Tab to content, wait 5s - check what's visible",
+      "steps": [
+        {"action": "send_keys", "keys": "Tab"},
+        {"action": "wait", "seconds": 5.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings"}
+      ]
+    },
+    {
+      "name": "DIAG 4: After 5 Downs - what's visible?",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings"}
+      ]
+    },
+    {
+      "name": "DIAG 5: After 5 more Downs (total 10) - effortLevel?",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "effortLevel"}
+      ]
+    },
+    {
+      "name": "DIAG 6: After 5 more Downs (total 15) - what's here?",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings"}
+      ]
+    },
+    {
+      "name": "DIAG 7: After 5 more Downs (total 20) - outputStyle?",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "outputStyle"}
+      ]
+    },
+    {
+      "name": "DIAG 8: After 5 more Downs (total 25) - what's here?",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings"}
+      ]
+    },
+    {
+      "name": "DIAG 9: BTab to sidebar, Up x6 to Commands, Tab to content",
+      "steps": [
+        {"action": "send_keys", "keys": "BTab"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "wait", "seconds": 1.0},
+        {"action": "send_keys", "keys": "Tab"},
+        {"action": "wait", "seconds": 2.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Commands"}
+      ]
+    },
+    {
+      "name": "DIAG QUIT",
+      "steps": [
+        {"action": "send_keys", "keys": "q"},
+        {"action": "wait", "seconds": 2.0}
+      ],
+      "assertions": []
+    }
+  ]
+}

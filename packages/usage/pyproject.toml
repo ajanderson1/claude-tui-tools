@@ -1,0 +1,26 @@
+[project]
+name = "claude-tui-usage"
+dynamic = ["version"]
+description = "Visual pace-aware usage monitor for Claude Code rate limits"
+requires-python = ">=3.9"
+license = "MIT"
+dependencies = [
+    "python-dateutil>=2.8.0",
+]
+
+[project.scripts]
+claude-tui-usage = "claude_tui_usage.monitor:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/claude_tui_usage/__about__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/claude_tui_usage"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"

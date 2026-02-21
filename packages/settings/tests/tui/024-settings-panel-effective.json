@@ -1,0 +1,281 @@
+{
+  "app_command": "cd /tmp/test_area && python -m claude_tui_settings",
+  "session_name": "tui-024-settings",
+  "width": 80,
+  "height": 24,
+  "startup_delay": 8.0,
+  "tests": [
+    {
+      "name": "App loads with sidebar showing Settings option",
+      "steps": [],
+      "assertions": [
+        {"type": "contains", "text": "claude-bootstrap"}
+      ]
+    },
+
+    {
+      "name": "GROUP 1+3: Navigate sidebar to Settings (index 8)",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings"}
+      ]
+    },
+
+    {
+      "name": "GROUP 1+3: Tab to settings content and wait for schema",
+      "steps": [
+        {"action": "send_keys", "keys": "Tab"},
+        {"action": "wait", "seconds": 5.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "autoUpdatesChannel"}
+      ]
+    },
+
+    {
+      "name": "GROUP 1+3: Navigate to effortLevel area (10 Downs) and verify effective value + OVERRIDES",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "effortLevel"},
+        {"type": "contains", "text": "high"},
+        {"type": "contains", "text": "OVERRIDES USER SCOPE"}
+      ]
+    },
+
+    {
+      "name": "GROUP 1: Navigate to outputStyle area (15 more Downs = 25 total) and verify label visible",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "outputStyle"},
+        {"type": "not_contains", "text": "OVERRIDES USER SCOPE"}
+      ]
+    },
+
+    {
+      "name": "GROUP 2: Navigate sidebar to Commands (BTab to sidebar, Up x6 to Commands)",
+      "steps": [
+        {"action": "send_keys", "keys": "BTab"},
+        {"action": "wait", "seconds": 0.5},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "wait", "seconds": 1.0},
+        {"action": "send_keys", "keys": "Tab"},
+        {"action": "wait", "seconds": 3.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Commands"},
+        {"type": "contains", "text": "test-user-cmd"},
+        {"type": "contains", "text": "(USER)"},
+        {"type": "contains", "text": "test-project-cmd"}
+      ]
+    },
+
+    {
+      "name": "GROUP 5: Navigate sidebar back to Settings for enum coercion test",
+      "steps": [
+        {"action": "send_keys", "keys": "BTab"},
+        {"action": "wait", "seconds": 0.5},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 1.0},
+        {"action": "send_keys", "keys": "Tab"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings"}
+      ]
+    },
+
+    {
+      "name": "GROUP 5: Navigate to effortLevel (10 Downs) and open Select dropdown",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.5},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "effortLevel"}
+      ]
+    },
+
+    {
+      "name": "GROUP 5: Select 'medium' from dropdown (Up from current 'high' to 'medium')",
+      "steps": [
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "medium"}
+      ]
+    },
+
+    {
+      "name": "GROUP 5: Apply config (Ctrl+S) — enum coercion should write string",
+      "steps": [
+        {"action": "send_keys", "keys": "C-s"},
+        {"action": "wait", "seconds": 3.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "applied"}
+      ]
+    },
+
+    {
+      "name": "GROUP 4: Refresh and navigate to effortLevel for dedup test",
+      "steps": [
+        {"action": "send_keys", "keys": "C-r"},
+        {"action": "wait", "seconds": 3.0},
+        {"action": "send_keys", "keys": "Tab"},
+        {"action": "wait", "seconds": 0.5},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "effortLevel"},
+        {"type": "contains", "text": "medium"}
+      ]
+    },
+
+    {
+      "name": "GROUP 4: Open Select and choose 'low' (Up from 'medium' to 'low', matching user scope — will dedup)",
+      "steps": [
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 0.5},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "low"}
+      ]
+    },
+
+    {
+      "name": "GROUP 4: Apply config (Ctrl+S) — effortLevel should be deduped",
+      "steps": [
+        {"action": "send_keys", "keys": "C-s"},
+        {"action": "wait", "seconds": 3.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "applied"}
+      ]
+    },
+
+    {
+      "name": "GROUP 6: Refresh to recompose (Ctrl+R workaround for recompose bug)",
+      "steps": [
+        {"action": "send_keys", "keys": "C-r"},
+        {"action": "wait", "seconds": 3.0},
+        {"action": "send_keys", "keys": "Tab"},
+        {"action": "wait", "seconds": 0.5},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "effortLevel"},
+        {"type": "contains", "text": "low"},
+        {"type": "not_contains", "text": "OVERRIDES USER SCOPE"}
+      ]
+    },
+
+    {
+      "name": "Quit app to verify file contents",
+      "steps": [
+        {"action": "send_keys", "keys": "q"},
+        {"action": "wait", "seconds": 2.0}
+      ],
+      "assertions": []
+    },
+
+    {
+      "name": "GROUP 4: Verify settings.json — effortLevel deduped, outputStyle retained",
+      "steps": [
+        {"action": "type_text", "text": "cat /tmp/test_area/.claude/settings.json"},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "not_contains", "text": "effortLevel"},
+        {"type": "contains", "text": "\"outputStyle\": \"concise\""}
+      ]
+    }
+  ]
+}

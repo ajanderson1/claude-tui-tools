@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+
+# Testing
+.pytest_cache/
+
+# Build artifacts
+node_modules/
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Logs
+*.log
+
+# Claude Code local config
+.claude/
+
+# Tool artifacts
+.playwright-mcp/
+.serena/
+.mcp.json
+.worktrees/
+
+# Dev-only artifacts
+.self_heal/
+audit-*.json
+docs/
+
+# Temporary files
+/tmp/

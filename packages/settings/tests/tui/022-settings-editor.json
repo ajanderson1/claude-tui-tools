@@ -1,0 +1,149 @@
+{
+  "app_command": "cd $(mktemp -d) && python -m claude_tui_settings",
+  "session_name": "tui-test",
+  "width": 80,
+  "height": 24,
+  "startup_delay": 6.0,
+  "tests": [
+    {
+      "name": "Hub menu shows Settings item with defaults",
+      "steps": [],
+      "assertions": [
+        {"type": "contains", "text": "Bootstrap [Project]"},
+        {"type": "contains", "text": "Settings:"},
+        {"type": "contains", "text": "(defaults)"}
+      ]
+    },
+    {
+      "name": "Navigate to Settings and open sub-menu",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 3.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings — select to edit:"},
+        {"type": "contains", "text": "← Back"},
+        {"type": "contains", "text": "respectGitignore"},
+        {"type": "contains", "text": "(not set)"}
+      ]
+    },
+    {
+      "name": "Toggle boolean: respectGitignore (not set) → true",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings — select to edit:"},
+        {"type": "regex", "pattern": "respectGitignore\\s+true"}
+      ]
+    },
+    {
+      "name": "Open enum select for effortLevel",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Select value for effortLevel:"},
+        {"type": "contains", "text": "low"},
+        {"type": "contains", "text": "medium"},
+        {"type": "contains", "text": "high"}
+      ]
+    },
+    {
+      "name": "Choose 'high' from enum select",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings — select to edit:"},
+        {"type": "regex", "pattern": "effortLevel\\s+high"}
+      ]
+    },
+    {
+      "name": "Back returns to hub with '2 customized'",
+      "steps": [
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Bootstrap [Project]"},
+        {"type": "contains", "text": "2 customized"}
+      ]
+    },
+    {
+      "name": "Navigate to Done (skip project note prompt)",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Project note:"}
+      ]
+    },
+    {
+      "name": "Skip project note and verify bootstrap completes",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 5.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Bootstrap complete!"},
+        {"type": "contains", "text": "settings.json"}
+      ]
+    },
+    {
+      "name": "Verify settings.json contains scalar overrides with correct types",
+      "steps": [
+        {"action": "type_text", "text": "cat .claude/settings.json"},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "\"respectGitignore\": true"},
+        {"type": "contains", "text": "\"effortLevel\": \"high\""}
+      ]
+    }
+  ]
+}

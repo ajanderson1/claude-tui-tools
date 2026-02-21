@@ -1,0 +1,118 @@
+{
+  "app_command": "cd /tmp/test_area && python -m claude_tui_settings",
+  "session_name": "tui-024-diag2",
+  "width": 80,
+  "height": 24,
+  "startup_delay": 8.0,
+  "tests": [
+    {
+      "name": "App loads",
+      "steps": [],
+      "assertions": [
+        {"type": "contains", "text": "claude-bootstrap"}
+      ]
+    },
+
+    {
+      "name": "DIAG: Try Alt+3 (M-3) to jump to Commands directly",
+      "steps": [
+        {"action": "send_keys", "keys": "M-3"},
+        {"action": "wait", "seconds": 2.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Commands"},
+        {"type": "contains", "text": "test-project-cmd"}
+      ]
+    },
+
+    {
+      "name": "DIAG: Check if test-user-cmd visible",
+      "steps": [],
+      "assertions": [
+        {"type": "contains", "text": "test-user-cmd"}
+      ]
+    },
+
+    {
+      "name": "DIAG: Try Alt+9 (M-9) to jump to Settings",
+      "steps": [
+        {"action": "send_keys", "keys": "M-9"},
+        {"action": "wait", "seconds": 3.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings"},
+        {"type": "contains", "text": "autoUpdatesChannel"}
+      ]
+    },
+
+    {
+      "name": "DIAG: Tab to content and 10 Downs for effortLevel",
+      "steps": [
+        {"action": "send_keys", "keys": "Tab"},
+        {"action": "wait", "seconds": 1.0},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "effortLevel"},
+        {"type": "contains", "text": "high"},
+        {"type": "contains", "text": "OVERRIDES USER SCOPE"}
+      ]
+    },
+
+    {
+      "name": "DIAG: Alt+3 again for Commands check",
+      "steps": [
+        {"action": "send_keys", "keys": "M-3"},
+        {"action": "wait", "seconds": 2.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "test-project-cmd"},
+        {"type": "contains", "text": "test-user-cmd"},
+        {"type": "contains", "text": "(USER)"}
+      ]
+    },
+
+    {
+      "name": "DIAG: Alt+9 back to Settings, Tab, 10 Downs",
+      "steps": [
+        {"action": "send_keys", "keys": "M-9"},
+        {"action": "wait", "seconds": 2.0},
+        {"action": "send_keys", "keys": "Tab"},
+        {"action": "wait", "seconds": 1.0},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.5}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "effortLevel"}
+      ]
+    },
+
+    {
+      "name": "DIAG QUIT",
+      "steps": [
+        {"action": "send_keys", "keys": "q"},
+        {"action": "wait", "seconds": 2.0}
+      ],
+      "assertions": []
+    }
+  ]
+}

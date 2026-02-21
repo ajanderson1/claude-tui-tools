@@ -1,0 +1,27 @@
+[project]
+name = "claude-tui-settings"
+dynamic = ["version"]
+description = "TUI dashboard for managing Claude Code's multi-scope settings"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+    "textual>=1.0.0",
+    "httpx>=0.27",
+]
+
+[project.scripts]
+claude-tui-settings = "claude_tui_settings.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/claude_tui_settings/__about__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/claude_tui_settings"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

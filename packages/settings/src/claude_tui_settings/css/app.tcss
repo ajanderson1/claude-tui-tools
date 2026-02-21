@@ -1,0 +1,583 @@
+/* claude-tui-settings — Sidebar Navigator variant (Variant B)
+ * Theme: tokyo-night (set in app.py on_mount)
+ * Design: left sidebar + right content pane
+ */
+
+Screen {
+    layout: vertical;
+    background: $surface;
+}
+
+#main-container {
+    layout: horizontal;
+    height: 1fr;
+}
+
+/* ── Sidebar ── */
+#sidebar {
+    width: 22;
+    min-width: 18;
+    max-width: 26;
+    height: 100%;
+    background: $panel;
+    border-right: tall $primary-darken-2;
+    padding: 0;
+}
+
+#sidebar-list {
+    height: 100%;
+    background: $panel;
+    scrollbar-size-vertical: 1;
+    scrollbar-background: $panel-darken-1;
+    scrollbar-color: $primary-darken-2;
+    scrollbar-color-hover: $primary;
+}
+
+#sidebar-list > .option-list--option {
+    padding: 0 2;
+}
+
+OptionList > .option-list--option-highlighted {
+    background: $primary;
+    color: $text;
+    text-style: bold;
+}
+
+OptionList > .option-list--option-hover {
+    background: $boost;
+}
+
+/* ── Content pane (non-scrollable container; sections scroll themselves) ── */
+#content-pane {
+    width: 1fr;
+    height: 100%;
+    background: $surface;
+}
+
+/* Sections fill the content pane and handle their own scrolling */
+#content-pane > VerticalScroll {
+    height: 1fr;
+    padding: 1 2;
+    scrollbar-background: $surface-darken-1;
+    scrollbar-color: $primary-darken-2;
+    scrollbar-color-hover: $primary-darken-1;
+    scrollbar-color-active: $primary;
+    scrollbar-size-vertical: 1;
+}
+
+/* ── Section titles ── */
+.section-title {
+    text-style: bold;
+    color: $accent;
+    padding: 0 0 1 0;
+}
+
+/* ── Manage / Understand visual distinction ── */
+.manage-item {
+    color: $text;
+}
+
+.understand-item {
+    color: $accent;
+}
+
+/* ── Diff styling ── */
+.diff-add {
+    color: $text-success;
+    background: $success-muted;
+    padding: 0 1;
+}
+
+.diff-remove {
+    color: $text-error;
+    background: $error-muted;
+    padding: 0 1;
+}
+
+.diff-modify {
+    color: $text-warning;
+    background: $warning-muted;
+    padding: 0 1;
+}
+
+/* ── Resource list items ── */
+.resource-item {
+    height: 1;
+    padding: 0 1;
+}
+
+Checkbox {
+    padding: 0 1;
+    background: $surface;
+}
+
+Checkbox:hover {
+    background: $boost;
+}
+
+Checkbox.-on {
+    color: $text;
+}
+
+.resource-local {
+    color: $text-muted;
+    text-style: italic;
+}
+
+.resource-broken {
+    color: $text-warning;
+    background: $warning-muted;
+}
+
+/* ── Settings form ── */
+SettingRow {
+    height: auto;
+    padding: 1 0;
+}
+
+.setting-header {
+    height: 1;
+    width: 100%;
+}
+
+.setting-key {
+    width: auto;
+}
+
+.setting-spacer {
+    width: 1fr;
+}
+
+.setting-action-link {
+    width: auto;
+    color: $accent;
+    padding: 0 1;
+}
+
+.setting-action-link:hover {
+    background: $boost;
+    color: $text;
+}
+
+.setting-description {
+    color: $text-muted;
+    text-style: italic;
+    padding: 0 0 0 2;
+}
+
+.setting-unset-switch {
+    opacity: 50%;
+}
+
+.setting-unset-hint {
+    padding: 0 0 0 2;
+}
+
+.setting-sandbox-note {
+    padding: 1 0;
+}
+
+/* ── Audit warnings ── */
+.audit-warning {
+    color: $text-warning;
+    background: $warning-muted;
+    padding: 0 1;
+}
+
+.audit-dupe {
+    color: $text-warning;
+    background: $warning-muted;
+    padding: 0 1;
+}
+
+.audit-override {
+    color: $text-error;
+    background: $error-muted;
+    padding: 0 1;
+}
+
+.audit-conflict {
+    color: $text-error;
+    background: $error-muted;
+    padding: 0 1;
+    text-style: bold;
+}
+
+/* ── Instructions file entries ── */
+.instruction-entry {
+    padding: 1 2;
+    margin-bottom: 1;
+    background: $panel;
+    border: round $surface-lighten-1;
+}
+
+.instruction-scope {
+    color: $accent;
+    text-style: bold;
+    width: 16;
+}
+
+.instruction-preview {
+    color: $text-muted;
+    padding: 0 0 0 2;
+}
+
+/* ── Effective config table ── */
+.effective-section {
+    padding: 1 2;
+    margin-bottom: 1;
+    background: $panel;
+    border: round $surface-lighten-1;
+}
+
+.effective-header {
+    text-style: bold;
+    color: $accent;
+    padding: 0 0 1 0;
+}
+
+.effective-key {
+    width: 30;
+    text-style: bold;
+}
+
+.effective-value {
+    width: 25;
+    color: $text-success;
+}
+
+.effective-scope {
+    width: 15;
+    color: $accent;
+}
+
+.effective-override {
+    color: $text-muted;
+    text-style: italic;
+}
+
+/* ── Permission rules ── */
+.permission-section {
+    padding: 1 2;
+    margin-bottom: 1;
+    background: $panel;
+    border: round $surface-lighten-1;
+}
+
+.perm-rule {
+    padding: 0 1;
+}
+
+.perm-allow {
+    color: $text-success;
+    background: $success-muted;
+    padding: 0 1;
+}
+
+.perm-deny {
+    color: $text-error;
+    background: $error-muted;
+    padding: 0 1;
+}
+
+.perm-ask {
+    color: $text-warning;
+    background: $warning-muted;
+    padding: 0 1;
+}
+
+/* ── Scope badges ── */
+.scope-badge {
+    width: auto;
+    text-style: bold;
+    padding: 0 1;
+}
+
+.scope-managed {
+    color: $text-error;
+    background: $error-muted;
+}
+
+.scope-user {
+    color: $text-primary;
+    background: $primary-muted;
+}
+
+.scope-project {
+    color: $text-warning;
+    background: $warning-muted;
+}
+
+.scope-local {
+    color: $text-success;
+    background: $success-muted;
+}
+
+.scope-unset {
+    color: $text-muted;
+    background: $surface-darken-1;
+}
+
+/* ── Overview section ── */
+.overview-section {
+    margin-bottom: 1;
+    padding: 1 2;
+    background: $panel;
+    border: round $primary-darken-1;
+}
+
+.overview-section-title {
+    text-style: bold;
+    color: $accent;
+    padding: 0 0 1 0;
+}
+
+/* ── Scrollbar global ── */
+VerticalScroll {
+    scrollbar-background: $surface-darken-1;
+    scrollbar-color: $primary-darken-2;
+    scrollbar-color-hover: $primary-darken-1;
+    scrollbar-color-active: $primary;
+    scrollbar-size-vertical: 1;
+}
+
+/* ── Buttons ── */
+Button {
+    background: $primary-darken-1;
+    color: $text;
+    border: tall $primary;
+    min-width: 10;
+}
+
+Button:hover {
+    background: $primary;
+}
+
+Button:focus {
+    background: $primary;
+    text-style: bold;
+}
+
+/* ── Confirm dialog ── */
+ConfirmDialog, RevertDialog {
+    align: center middle;
+}
+
+#confirm-container {
+    width: 64;
+    height: auto;
+    max-height: 80%;
+    border: thick $primary;
+    background: $panel;
+    padding: 1 2;
+}
+
+#confirm-title {
+    text-style: bold;
+    color: $accent;
+    text-align: center;
+    width: 100%;
+    padding: 0 0 1 0;
+}
+
+#confirm-items {
+    max-height: 15;
+    padding: 1;
+    background: $surface;
+    border: round $surface-lighten-1;
+    margin-bottom: 1;
+}
+
+#confirm-buttons {
+    layout: horizontal;
+    height: 3;
+    align: center middle;
+}
+
+#confirm-buttons Button {
+    margin: 0 2;
+}
+
+/* ── Exit dialog ── */
+ExitDialog {
+    align: center middle;
+}
+
+#exit-container {
+    width: 54;
+    height: auto;
+    border: thick $warning;
+    background: $panel;
+    padding: 1 2;
+}
+
+#exit-title {
+    text-style: bold;
+    color: $warning;
+    text-align: center;
+    width: 100%;
+    padding: 0 0 1 0;
+}
+
+#exit-buttons {
+    layout: horizontal;
+    height: 3;
+    align: center middle;
+}
+
+#exit-buttons Button {
+    margin: 0 1;
+}
+
+/* ── SelectionList ── */
+SelectionList {
+    height: 1fr;
+    border: round $surface-lighten-1;
+    background: $surface;
+    scrollbar-size-vertical: 1;
+}
+
+/* ── DataTable ── */
+DataTable {
+    height: auto;
+    max-height: 20;
+    border: round $surface-lighten-1;
+    background: $surface;
+    scrollbar-size-vertical: 1;
+}
+
+DataTable > .datatable--header {
+    background: $panel;
+    color: $text;
+    text-style: bold;
+}
+
+/* ── Collapsible ── */
+Collapsible {
+    background: $surface;
+    margin-bottom: 1;
+}
+
+CollapsibleTitle {
+    background: $panel;
+    color: $accent;
+    text-style: bold;
+    padding: 0 1;
+}
+
+/* ── Rule separator ── */
+Rule {
+    margin: 1 0;
+    color: $surface-lighten-2;
+}
+
+/* ── Save preset dialog ── */
+SavePresetDialog {
+    align: center middle;
+}
+
+#save-preset-container {
+    width: 64;
+    height: auto;
+    max-height: 80%;
+    border: thick $primary;
+    background: $panel;
+    padding: 1 2;
+}
+
+#save-preset-title {
+    text-style: bold;
+    color: $accent;
+    text-align: center;
+    width: 100%;
+    padding: 0 0 1 0;
+}
+
+#save-preset-error {
+    color: $warning;
+    padding: 0 1;
+}
+
+#save-preset-buttons {
+    layout: horizontal;
+    height: 3;
+    align: center middle;
+}
+
+#save-preset-buttons Button {
+    margin: 0 2;
+}
+
+/* ── Load preset dialog ── */
+LoadPresetDialog {
+    align: center middle;
+}
+
+#load-preset-container {
+    width: 70;
+    height: auto;
+    max-height: 80%;
+    border: thick $accent;
+    background: $panel;
+    padding: 1 2;
+}
+
+#load-preset-title {
+    text-style: bold;
+    color: $accent;
+    text-align: center;
+    width: 100%;
+    padding: 0 0 1 0;
+}
+
+#preset-list {
+    height: 1fr;
+    max-height: 16;
+    border: round $surface-lighten-1;
+}
+
+#validation-warnings {
+    color: $warning;
+    padding: 0 1;
+}
+
+#load-preset-buttons {
+    layout: horizontal;
+    height: 3;
+    align: center middle;
+}
+
+#load-preset-buttons Button {
+    margin: 0 2;
+}
+
+/* ── Confirm load dialog ── */
+ConfirmLoadDialog {
+    align: center middle;
+}
+
+#confirm-load-container {
+    width: 54;
+    height: auto;
+    border: thick $warning;
+    background: $panel;
+    padding: 1 2;
+}
+
+#confirm-load-title {
+    text-style: bold;
+    color: $warning;
+    text-align: center;
+    width: 100%;
+    padding: 0 0 1 0;
+}
+
+#confirm-load-buttons {
+    layout: horizontal;
+    height: 3;
+    align: center middle;
+}
+
+#confirm-load-buttons Button {
+    margin: 0 2;
+}

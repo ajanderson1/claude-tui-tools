@@ -1,0 +1,140 @@
+{
+  "app_command": "cd $(mktemp -d) && python -m claude_tui_settings",
+  "session_name": "tui-test",
+  "width": 80,
+  "height": 24,
+  "startup_delay": 6.0,
+  "tests": [
+    {
+      "name": "Navigate to Settings sub-menu",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 4.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings — select to edit:"}
+      ]
+    },
+    {
+      "name": "Navigate to outputStyle (13 down from Back) and open text input",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Edit outputStyle:"},
+        {"type": "not_contains", "text": "Select value for outputStyle:"}
+      ]
+    },
+    {
+      "name": "Type 'concise' and confirm, scroll down to verify",
+      "steps": [
+        {"action": "type_text", "text": "concise"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 1.0},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.3}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Settings — select to edit:"},
+        {"type": "regex", "pattern": "outputStyle\\s+concise"}
+      ]
+    },
+    {
+      "name": "Back to hub shows 1 customized",
+      "steps": [
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "send_keys", "keys": "Up"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Bootstrap [Project]"},
+        {"type": "contains", "text": "1 customized"}
+      ]
+    },
+    {
+      "name": "Done and skip project note",
+      "steps": [
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 1.0},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "send_keys", "keys": "Down"},
+        {"action": "wait", "seconds": 0.3},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 5.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "Bootstrap complete!"}
+      ]
+    },
+    {
+      "name": "Verify settings.json contains outputStyle as string",
+      "steps": [
+        {"action": "type_text", "text": "cat .claude/settings.json"},
+        {"action": "send_keys", "keys": "Enter"},
+        {"action": "wait", "seconds": 1.0}
+      ],
+      "assertions": [
+        {"type": "contains", "text": "\"outputStyle\": \"concise\""}
+      ]
+    }
+  ]
+}
