@@ -23,7 +23,7 @@ class OverviewSection(VerticalScroll):
         yield Static("[bold]Project note[/bold]")
         self._note_input = Input(
             value=self.config.selected_project_note_path or "",
-            placeholder="~/Journal/Atlas/My Project.md",
+            placeholder="path/to/project-notes.md",
             name="project_note_path",
         )
         yield self._note_input
