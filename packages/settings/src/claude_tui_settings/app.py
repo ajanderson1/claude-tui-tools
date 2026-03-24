@@ -63,7 +63,7 @@ from claude_tui_settings.widgets.skills import make_skills_section
 
 # Section definitions: (id, label, is_understand_mode)
 SECTIONS = [
-    ("overview", "Overview", True),
+    ("overview", "Overview", False),
     ("permissions", "Perms", False),
     ("commands", "Commands", False),
     ("agents", "Agents", False),
@@ -397,6 +397,7 @@ class BootstrapApp(App):
                 detect_mcps,
                 detect_plugins,
                 detect_profile,
+                detect_project_note_path,
                 detect_resources,
             )
             from claude_tui_settings.models.instruction_files import discover_instruction_files
@@ -423,6 +424,7 @@ class BootstrapApp(App):
             self.config.existing_mcps = detect_mcps(project_dir / ".mcp.json")
             self.config.existing_hooks = detect_hooks(settings_path, claude_repo)
             self.config.existing_settings = detect_existing_settings(settings_path)
+            self.config.existing_project_note_path = detect_project_note_path(project_dir)
 
             # Re-run audit, effective config, instruction files
             self.config.audit_warnings = run_audit(project_dir)
@@ -442,6 +444,7 @@ class BootstrapApp(App):
             self.config.selected_mcps = set(self.config.existing_mcps)
             self.config.selected_hooks = set(self.config.existing_hooks)
             self.config.selected_settings = dict(self.config.existing_settings)
+            self.config.selected_project_note_path = self.config.existing_project_note_path
 
             self.mutate_reactive(BootstrapApp.config)
             self._presets = list_presets(self.config.claude_repo)
@@ -499,6 +502,9 @@ class BootstrapApp(App):
                 settings_path, self.config.claude_repo,
             )
             self.config.existing_settings = detect_existing_settings(settings_path)
+
+            # Update project note path directly in memory (belt-and-suspenders)
+            self.config.existing_project_note_path = self.config.selected_project_note_path
 
             # Sync selections to match what was actually written (deduped)
             self.config.selected_settings = dict(self.config.existing_settings)

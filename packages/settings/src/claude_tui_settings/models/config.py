@@ -2,11 +2,18 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
 _NO_VALUE = object()  # sentinel for "no user-scope value exists"
+
+# Shared between persistence.py (writer) and detection.py (reader)
+_PROJECT_NOTE_PATTERN = re.compile(
+    r'^\*\*Project note:\*\*\s+`([^`]+)`\s*$',
+    re.MULTILINE,
+)
 
 
 @dataclass
@@ -206,6 +213,7 @@ class ConfigState:
     existing_mcps: set[str] = field(default_factory=set)
     existing_hooks: set[str] = field(default_factory=set)
     existing_settings: dict[str, Any] = field(default_factory=dict)
+    existing_project_note_path: str | None = None
 
     # User selections (mutable, drives the UI)
     selected_profile: str = "standard"
@@ -216,6 +224,7 @@ class ConfigState:
     selected_mcps: set[str] = field(default_factory=set)
     selected_hooks: set[str] = field(default_factory=set)
     selected_settings: dict[str, Any] = field(default_factory=dict)
+    selected_project_note_path: str | None = None
 
     # Scope audit
     audit_warnings: list[AuditWarning] = field(default_factory=list)
@@ -318,5 +327,15 @@ class ConfigState:
                     domain="settings", action="modify", key=key,
                     old_value=old_val, new_value=new_val,
                 ))
+
+        # Project note diff
+        if self.selected_project_note_path != self.existing_project_note_path:
+            entries.append(DiffEntry(
+                domain="project_note",
+                action="modify" if self.existing_project_note_path else "add",
+                key="project_note_path",
+                old_value=self.existing_project_note_path,
+                new_value=self.selected_project_note_path,
+            ))
 
         return Diff(entries=entries)

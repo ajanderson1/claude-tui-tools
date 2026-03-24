@@ -157,6 +157,7 @@ def _run_tui() -> None:
         detect_mcps,
         detect_plugins,
         detect_profile,
+        detect_project_note_path,
         detect_resources,
         detect_user_resources,
     )
@@ -213,6 +214,7 @@ def _run_tui() -> None:
     existing_mcps = detect_mcps(project_dir / ".mcp.json")
     existing_hooks = detect_hooks(settings_path, claude_repo)
     existing_settings = detect_existing_settings(settings_path)
+    existing_project_note_path = detect_project_note_path(project_dir)
 
     user_claude_dir = Path.home() / ".claude"
     user_commands = detect_user_resources(user_claude_dir, "commands")
@@ -280,6 +282,7 @@ def _run_tui() -> None:
         existing_mcps=existing_mcps,
         existing_hooks=existing_hooks,
         existing_settings=existing_settings,
+        existing_project_note_path=existing_project_note_path,
         selected_profile=existing_profile or "standard",
         selected_commands=set(existing_commands),
         selected_agents=set(existing_agents),
@@ -288,6 +291,7 @@ def _run_tui() -> None:
         selected_mcps=set(existing_mcps),
         selected_hooks=set(existing_hooks),
         selected_settings=dict(existing_settings),
+        selected_project_note_path=existing_project_note_path,
         audit_warnings=audit_warnings,
         effective=effective,
         instruction_files=instruction_files,
