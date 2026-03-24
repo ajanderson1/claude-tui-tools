@@ -141,11 +141,59 @@ def test_apply_updates_claude_md(claude_repo, project_dir):
     claude_md = project_dir / "CLAUDE.md"
     assert claude_md.is_file()
     content = claude_md.read_text()
-    assert "<!-- BEGIN:BOOTSTRAPPED_TOOLS -->" in content
-    assert "<!-- END:BOOTSTRAPPED_TOOLS -->" in content
-    assert "textual-tui" in content
-    assert "standard" in content
-    assert "<!-- BEGIN:PROJECT_NOTE -->" not in content
+    assert "<!-- Run `claude-tui-settings` to reconfigure. -->" in content
+    # Old sentinel section should NOT be present
+    assert "<!-- BEGIN:BOOTSTRAPPED_TOOLS -->" not in content
+
+
+def test_apply_writes_project_note_block(claude_repo, project_dir):
+    config = ConfigState(
+        claude_repo=claude_repo,
+        available_profiles=[Profile("standard", "Standard", claude_repo / "profiles" / "standard.json")],
+        selected_profile="standard",
+        selected_project_note_path="~/Journal/Atlas/My Project.md",
+    )
+    apply_config(config, project_dir)
+
+    claude_md = project_dir / "CLAUDE.md"
+    content = claude_md.read_text()
+    assert "**Project note:** `~/Journal/Atlas/My Project.md`" in content
+    assert "human's project notebook" in content
+
+
+def test_apply_omits_project_note_when_none(claude_repo, project_dir):
+    config = ConfigState(
+        claude_repo=claude_repo,
+        available_profiles=[Profile("standard", "Standard", claude_repo / "profiles" / "standard.json")],
+        selected_profile="standard",
+        selected_project_note_path=None,
+    )
+    apply_config(config, project_dir)
+
+    claude_md = project_dir / "CLAUDE.md"
+    content = claude_md.read_text()
+    assert "**Project note:**" not in content
+
+
+def test_apply_strips_old_sentinel_section(claude_repo, project_dir):
+    claude_md = project_dir / "CLAUDE.md"
+    claude_md.write_text(
+        "# My Project\n\n"
+        "<!-- BEGIN:BOOTSTRAPPED_TOOLS -->\n"
+        "## Bootstrapped Tools\nOld stuff\n"
+        "<!-- END:BOOTSTRAPPED_TOOLS -->\n"
+    )
+
+    config = ConfigState(
+        claude_repo=claude_repo,
+        available_profiles=[Profile("standard", "Standard", claude_repo / "profiles" / "standard.json")],
+        selected_profile="standard",
+    )
+    apply_config(config, project_dir)
+
+    content = claude_md.read_text()
+    assert "<!-- BEGIN:BOOTSTRAPPED_TOOLS -->" not in content
+    assert "# My Project" in content
 
 
 def test_apply_updates_gitignore(claude_repo, project_dir):
@@ -164,7 +212,7 @@ def test_apply_updates_gitignore(claude_repo, project_dir):
 
 
 def test_apply_preserves_existing_claude_md_content(claude_repo, project_dir):
-    """Existing CLAUDE.md content outside sentinels should be preserved."""
+    """Existing CLAUDE.md content outside sentinel blocks should be preserved."""
     claude_md = project_dir / "CLAUDE.md"
     claude_md.write_text("# My Project\n\nCustom content here.\n")
 
@@ -178,7 +226,7 @@ def test_apply_preserves_existing_claude_md_content(claude_repo, project_dir):
     content = claude_md.read_text()
     assert "# My Project" in content
     assert "Custom content here." in content
-    assert "<!-- BEGIN:BOOTSTRAPPED_TOOLS -->" in content
+    assert "<!-- Run `claude-tui-settings` to reconfigure. -->" in content
 
 
 def test_apply_cleans_staging_on_failure(claude_repo, project_dir):
