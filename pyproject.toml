@@ -10,6 +10,9 @@ all = [
     "claude-tui-settings @ file:packages/settings",
 ]
 
+[tool.hatch.metadata]
+allow-direct-references = true
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

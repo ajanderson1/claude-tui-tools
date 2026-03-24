@@ -38,6 +38,7 @@ def _save_theme(theme: str) -> None:
     prefs["theme"] = theme
     PREFS_FILE.write_text(json.dumps(prefs, indent=2))
 
+from claude_tui_settings.__about__ import __version__
 from claude_tui_settings.models.config import ConfigState, Preset
 from claude_tui_settings.models.persistence import apply_config
 from claude_tui_settings.models.presets import list_presets, save_preset, load_preset_into_state
@@ -116,6 +117,7 @@ class BootstrapApp(App):
         project_name = Path.cwd().name
         yield Header()
         self.title = f"claude-tui-settings -- {project_name}"
+        self.sub_title = f"v{__version__}"
 
         with Horizontal(id="main-container"):
             with Vertical(id="sidebar"):
