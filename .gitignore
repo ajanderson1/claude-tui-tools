@@ -93,3 +93,4 @@ node_modules/
 .self_heal/
 audit-*.json
 docs/
+.fix-issue
