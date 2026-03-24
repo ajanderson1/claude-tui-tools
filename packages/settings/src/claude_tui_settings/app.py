@@ -63,7 +63,7 @@ from claude_tui_settings.widgets.skills import make_skills_section
 
 # Section definitions: (id, label, is_understand_mode)
 SECTIONS = [
-    ("overview", "Overview", True),
+    ("overview", "Overview", False),
     ("permissions", "Perms", False),
     ("commands", "Commands", False),
     ("agents", "Agents", False),
