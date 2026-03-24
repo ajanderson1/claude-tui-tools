@@ -421,16 +421,10 @@ def _atomic_install(
                     dest.unlink()
                 dest.symlink_to(link_target)
             elif entry.is_dir():
-                if entry.is_symlink():
-                    link_target = os.readlink(entry)
-                    if dest.exists() or dest.is_symlink():
-                        dest.unlink()
-                    dest.symlink_to(link_target)
-                else:
-                    # Copy directory tree for nested structures
-                    if dest.exists():
-                        shutil.rmtree(dest)
-                    shutil.copytree(entry, dest, symlinks=True)
+                # Copy directory tree for nested structures
+                if dest.exists():
+                    shutil.rmtree(dest)
+                shutil.copytree(entry, dest, symlinks=True)
             else:
                 shutil.copy2(entry, dest)
                 if entry.suffix in (".sh", ".js"):

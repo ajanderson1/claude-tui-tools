@@ -36,8 +36,6 @@ def parse_args(argv: list[str] | None = None) -> dict:
                 result["help"] = True
             case "--version" | "-V":
                 result["version"] = True
-            case "--no-gum":
-                print("Note: --no-gum is no longer needed. The Textual TUI replaces gum.")
             case _:
                 if arg.startswith("-"):
                     print(f"Unknown flag: {arg}", file=sys.stderr)

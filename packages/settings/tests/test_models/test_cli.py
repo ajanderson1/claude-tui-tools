@@ -38,12 +38,6 @@ def test_h_flag():
     assert args["help"]
 
 
-def test_no_gum_prints_message(capsys):
-    args = parse_args(["--no-gum"])
-    captured = capsys.readouterr()
-    assert "--no-gum is no longer needed" in captured.out
-
-
 def test_unknown_flag_exits():
     with pytest.raises(SystemExit) as exc_info:
         parse_args(["--unknown"])

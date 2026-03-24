@@ -7,14 +7,7 @@ from pathlib import Path
 from claude_tui_settings.cli import resolve_claude_repo
 from claude_tui_settings.models.resolver import resolve_effective_config
 from claude_tui_settings.models.instruction_files import discover_instruction_files
-from claude_tui_settings.models.detection import (
-    detect_profile,
-    detect_resources,
-    detect_mcps,
-    detect_plugins,
-    detect_hooks,
-    detect_existing_settings,
-)
+from claude_tui_settings.models.detection import detect_profile
 
 
 def run_summary() -> None:

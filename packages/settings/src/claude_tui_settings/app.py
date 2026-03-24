@@ -134,13 +134,8 @@ class BootstrapApp(App):
         Understand (tabs 1, 10, 11) sections.
         """
         options: list[Option] = []
-        for _i, (section_id, label, is_understand) in enumerate(SECTIONS):
-            # Prefix understand sections with a marker for visual distinction
-            if is_understand:
-                display_label = f"  {label}"
-            else:
-                display_label = f"  {label}"
-            options.append(Option(display_label, id=section_id))
+        for section_id, label, _is_understand in SECTIONS:
+            options.append(Option(f"  {label}", id=section_id))
 
         option_list = OptionList(*options, id="sidebar-list")
         return option_list

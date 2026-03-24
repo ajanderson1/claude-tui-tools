@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from claude_tui_settings.cli import resolve_claude_repo
 from claude_tui_settings.models.audit import run_audit, scan_all_scopes
 from claude_tui_settings.models.resolver import resolve_effective_config
 from claude_tui_settings.models.instruction_files import discover_instruction_files

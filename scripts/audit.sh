@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 echo "=== Running bandit ==="
-bandit -r packages/settings/src/ packages/usage/src/ -ll
+bandit -r packages/settings/src/ -ll
 echo "=== Running semgrep ==="
-semgrep --config auto packages/settings/src/ packages/usage/src/
+semgrep --config auto packages/settings/src/
 echo "=== Checking for secrets ==="
 grep -rn "api_key\|token\|secret\|password\|credential\|API_KEY" packages/ || echo "No secrets found"
 echo "=== Checking for personal paths ==="
