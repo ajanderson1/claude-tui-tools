@@ -6,7 +6,20 @@ import json
 from pathlib import Path
 from typing import Any
 
-from claude_tui_settings.models.config import Resource
+from claude_tui_settings.models.config import Resource, _PROJECT_NOTE_PATTERN
+
+
+def detect_project_note_path(project_dir: Path) -> str | None:
+    """Detect the project note path from CLAUDE.md."""
+    claude_md = project_dir / "CLAUDE.md"
+    if not claude_md.is_file():
+        return None
+    try:
+        content = claude_md.read_text(encoding="utf-8")
+    except OSError:
+        return None
+    match = _PROJECT_NOTE_PATTERN.search(content)
+    return match.group(1) if match else None
 
 
 def detect_profile(
