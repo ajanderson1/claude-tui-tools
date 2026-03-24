@@ -16,50 +16,31 @@
 #                                                                             #
 ```
 
-**TUI companion tools for Claude Code — settings management and usage monitoring.**
+**TUI companion tool for Claude Code — settings management.**
 
 Addressing small pain points for solo developers/small teams using Claude Code CLI.
 
 ---
 
-## Tools
-
-### claude-tui-settings
+## claude-tui-settings
 
 **The pain point:** Claude Code settings are scattered across 5 scopes with confusing precedence. Where is that setting actually coming from?
 
-*Solution:* A Textual TUI dashboard that allows quick clarity and centralized control over Claude Code's multi-scope project settings. 
+*Solution:* A Textual TUI dashboard that allows quick clarity and centralized control over Claude Code's multi-scope project settings.
 
 > I run it ahead of initialising a new project to quickly sync custom commands/skills/settings etc, or run with `claude-tui-settings --report && claude` to recap what settings/plugins/MCPs etc will be available ready to go in the claude instance.
 
 ![claude-tui-settings screenshot](assets/settings-screenshot.png)
 
-### claude-tui-usage
-
-**The pain point:** Running `/usage` all the time is a pain - it's hard to see how you're pacing against your rate limit window.
-
-*Solution:* A visual, pace-aware CLI monitor that shows your consumption pace vs. elapsed time so you can adjust before you hit the wall.
-> I like to run with `claude-tui-usage --loop` in a small terminal window, where it'll refresh every 5 mins or so.
-
-<p align="center">
-  <img src="assets/usage-screenshot.png" alt="claude-tui-usage screenshot" width="500">
-</p>
-
 ---
 
 ## Quick Start
 
-Install each tool independently:
-
 ```bash
-# Settings dashboard
 pip install git+https://github.com/ajanderson1/claude-tui-tools.git#subdirectory=packages/settings
-
-# Usage monitor
-pip install git+https://github.com/ajanderson1/claude-tui-tools.git#subdirectory=packages/usage
 ```
 
-Or install both for local development:
+Or install for local development:
 
 ```bash
 git clone https://github.com/ajanderson1/claude-tui-tools.git
@@ -71,8 +52,6 @@ Then run:
 
 ```bash
 claude-tui-settings          # Launch the settings TUI
-claude-tui-usage             # Single usage check
-claude-tui-usage --loop      # Continuous monitoring
 ```
 
 ---
@@ -82,9 +61,6 @@ claude-tui-usage --loop      # Continuous monitoring
 | Tool | Python | Dependencies |
 |------|--------|-------------|
 | claude-tui-settings | >= 3.10 | [Textual](https://textual.textualize.io/), httpx |
-| claude-tui-usage | >= 3.9 | python-dateutil, [`expect`](https://core.tcl-lang.org/expect/) |
-
-
 
 ### NB: This is crucial to the use case: -
 The TUI points to a local dir which serves as a central repo for all claude resources.  Each project is then creating symlinks to reference these.
@@ -98,24 +74,11 @@ I constantly refine and update my custom commands/skills etc so I find updating 
 export CLAUDE_REPO=/path/to/your/claude-repo
 ```
 
-**claude-tui-usage** requires the `expect` binary for terminal automation:
-
-```bash
-# macOS
-brew install expect
-
-# Linux
-apt-get install expect
-```
-
-**Note:** The usage monitor uses `pkill -f` to clean up spawned `claude /usage` processes after capture. This is normal and expected behavior.
-
 ---
 
 ## Detailed Docs
 
 - [claude-tui-settings](packages/settings/README.md) — all CLI flags, configuration scopes, TUI navigation
-- [claude-tui-usage](packages/usage/README.md) — all CLI flags, loop mode, debug output, exit codes
 
 ## License
 

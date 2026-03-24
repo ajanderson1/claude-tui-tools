@@ -2,13 +2,12 @@
 name = "claude-tui-tools"
 version = "0.1.0"
 description = "TUI Tools for Claude Code"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "MIT"
 
 [project.optional-dependencies]
 all = [
     "claude-tui-settings @ file:packages/settings",
-    "claude-tui-usage @ file:packages/usage",
 ]
 
 [build-system]
