@@ -10,7 +10,25 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from claude_tui_settings.models.config import _NO_VALUE, ConfigState, Hook, MCP, SettingDef
+import contextlib
+
+from claude_tui_settings.models.config import (
+    _NO_VALUE,
+    _PROJECT_NOTE_PATTERN,
+    ConfigState,
+    Hook,
+    MCP,
+    SettingDef,
+)
+
+# Two-line block pattern for replacing project note in CLAUDE.md
+_PROJECT_NOTE_BLOCK = re.compile(
+    r'^\*\*Project note:\*\*\s+`[^`]+`\s*\n'
+    r'.+\n',
+    re.MULTILINE,
+)
+
+_RECONFIGURE_HINT = '<!-- Run `claude-tui-settings` to reconfigure. -->'
 
 
 def apply_config(config: ConfigState, project_dir: Path) -> list[str]:
@@ -423,103 +441,60 @@ def _atomic_install(
 
 
 def _update_claude_md(config: ConfigState, project_dir: Path) -> None:
-    """Update CLAUDE.md sentinel-bounded sections atomically."""
+    """Update CLAUDE.md with project note block and reconfigure hint."""
     claude_md = project_dir / "CLAUDE.md"
 
     if claude_md.is_file():
-        content = claude_md.read_text()
+        content = claude_md.read_text(encoding="utf-8")
     else:
         content = "# CLAUDE.md\n"
 
-    # Update BOOTSTRAPPED_TOOLS section
-    content = _update_sentinel_section(
-        content,
-        "BOOTSTRAPPED_TOOLS",
-        _build_bootstrapped_tools_section(config),
+    # Migration: strip old sentinel block
+    content = re.sub(
+        r'\n?<!-- BEGIN:BOOTSTRAPPED_TOOLS -->.*?<!-- END:BOOTSTRAPPED_TOOLS -->\n?',
+        '\n', content, flags=re.DOTALL,
     )
 
-    # Write atomically: temp file in same directory, then os.replace()
+    # Project note block
+    note_path = config.selected_project_note_path
+    if note_path:
+        new_block = (
+            f'**Project note:** `{note_path}`\n'
+            'This is the human\'s project notebook. '
+            'Refer to it for project context, conventions, and working notes.\n'
+        )
+        if _PROJECT_NOTE_BLOCK.search(content):
+            content = _PROJECT_NOTE_BLOCK.sub(new_block, content)
+        elif _PROJECT_NOTE_PATTERN.search(content):
+            # Malformed (single line only) — leave it, append clean block
+            content = content.rstrip() + '\n\n' + new_block
+        else:
+            content = content.rstrip() + '\n\n' + new_block
+    else:
+        # Remove existing block if present
+        content = _PROJECT_NOTE_BLOCK.sub('', content)
+
+    # Reconfigure hint
+    if _RECONFIGURE_HINT not in content:
+        content = content.rstrip() + '\n\n' + _RECONFIGURE_HINT + '\n'
+
+    # Collapse triple+ newlines
+    content = re.sub(r'\n{3,}', '\n\n', content)
+
+    # Ensure trailing newline
+    if not content.endswith('\n'):
+        content += '\n'
+
+    # Write atomically
     fd, tmp_path = tempfile.mkstemp(dir=project_dir, prefix=".CLAUDE.md.tmp")
     try:
-        with os.fdopen(fd, "w") as f:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
             f.write(content)
         os.replace(tmp_path, claude_md)
-    except Exception:
-        try:
+    except BaseException:
+        with contextlib.suppress(OSError):
             os.unlink(tmp_path)
-        except OSError:
-            pass
         raise
-
-
-def _update_sentinel_section(
-    content: str, sentinel: str, new_section: str,
-) -> str:
-    """Replace content between sentinel markers, or append if not found."""
-    begin = f"<!-- BEGIN:{sentinel} -->"
-    end = f"<!-- END:{sentinel} -->"
-    pattern = re.compile(
-        rf"{re.escape(begin)}.*?{re.escape(end)}",
-        re.DOTALL,
-    )
-    replacement = f"{begin}\n{new_section}\n{end}"
-
-    if pattern.search(content):
-        return pattern.sub(replacement, content)
-    else:
-        return content.rstrip() + "\n\n" + replacement + "\n"
-
-
-def _build_bootstrapped_tools_section(config: ConfigState) -> str:
-    """Build the BOOTSTRAPPED_TOOLS sentinel content."""
-    lines = ["## Bootstrapped Tools", ""]
-    lines.append(f"**Permission profile:** {config.selected_profile}")
-    lines.append("")
-
-    # Commands
-    if config.selected_commands:
-        lines.append("**Commands:**")
-        for name in sorted(config.selected_commands):
-            lines.append(f"  - {name}")
-    else:
-        lines.append("**Commands:**")
-
-    # Agents
-    if config.selected_agents:
-        lines.append("**Agents:**")
-        for name in sorted(config.selected_agents):
-            lines.append(f"  - {name}")
-    else:
-        lines.append("**Agents:**")
-
-    # Skills
-    if config.selected_skills:
-        lines.append("**Skills:**")
-        for name in sorted(config.selected_skills):
-            lines.append(f"  - {name}")
-    else:
-        lines.append("**Skills:**")
-
-    # MCPs
-    if config.selected_mcps:
-        lines.append("**MCPs:**")
-        for name in sorted(config.selected_mcps):
-            lines.append(f"  - {name}")
-    else:
-        lines.append("**MCPs:**")
-
-    # Hooks
-    if config.selected_hooks:
-        lines.append("**Hooks:**")
-        for name in sorted(config.selected_hooks):
-            lines.append(f"  - {name}")
-    else:
-        lines.append("**Hooks:**")
-
-    lines.append("")
-    lines.append("Run `claude-tui-settings` to reconfigure.")
-
-    return "\n".join(lines)
 
 
 def _update_gitignore(project_dir: Path) -> None:
