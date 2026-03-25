@@ -46,8 +46,19 @@ def discover_agents(claude_repo: Path) -> list[Resource]:
     return _discover_md_resources(claude_repo / "agents")
 
 
+# Directory names recognised as grouping directories (not part of resource names).
+_GROUP_DIRS = frozenset({"first_party", "third_party"})
+
+
 def _discover_md_resources(base_dir: Path) -> list[Resource]:
-    """Discover .md resources recursively, building folder hierarchy."""
+    """Discover .md resources recursively, building folder hierarchy.
+
+    Supports both flat layouts (``commands/test/hello.md``) and grouped
+    layouts (``commands/first_party/test/hello.md``).  When a top-level
+    subdirectory matches a known group name the group is recorded on the
+    resource but stripped from ``name`` and ``folder`` so that downstream
+    references (symlinks, presets) remain stable.
+    """
     if not base_dir.is_dir():
         return []
     result = []
@@ -56,28 +67,69 @@ def _discover_md_resources(base_dir: Path) -> list[Resource]:
         if md_file.name in skip_names:
             continue
         rel = md_file.relative_to(base_dir)
-        folder = str(rel.parent) if rel.parent != Path(".") else ""
-        name = str(rel.with_suffix(""))  # e.g. "aj/capture2journal/capture2gotcha"
+        parts = rel.parts
+
+        # Detect group prefix
+        group = ""
+        if len(parts) >= 2 and parts[0] in _GROUP_DIRS:
+            group = parts[0]
+            parts = parts[1:]  # strip group from the logical path
+
+        logical_rel = Path(*parts) if parts else rel
+        folder = str(logical_rel.parent) if logical_rel.parent != Path(".") else ""
+        name = str(logical_rel.with_suffix(""))
+
         result.append(Resource(
             name=name,
             path=md_file,
             folder=folder,
+            group=group,
         ))
     return result
 
 
 def discover_skills(claude_repo: Path) -> list[Resource]:
-    """Discover skills from $CLAUDE_REPO/skills/*/SKILL.md sentinel files."""
+    """Discover skills from ``$CLAUDE_REPO/skills/*/SKILL.md`` sentinel files.
+
+    Also scans one level deeper to support grouped layouts such as
+    ``skills/first_party/journal/SKILL.md``.  The group directory is
+    recorded on the resource but stripped from the skill name so that
+    downstream references remain stable.
+    """
     skills_dir = claude_repo / "skills"
     if not skills_dir.is_dir():
         return []
+    seen: set[str] = set()
     result = []
+
+    # Flat: skills/*/SKILL.md
     for skill_md in sorted(skills_dir.glob("*/SKILL.md")):
+        if skill_md.parent.name in _GROUP_DIRS:
+            continue  # skip the group dir itself
         skill_name = skill_md.parent.name
-        result.append(Resource(
-            name=skill_name,
-            path=skill_md.parent,
-        ))
+        if skill_name not in seen:
+            seen.add(skill_name)
+            result.append(Resource(
+                name=skill_name,
+                path=skill_md.parent,
+            ))
+
+    # Grouped: skills/{first_party,third_party}/*/SKILL.md
+    for group_name in _GROUP_DIRS:
+        group_dir = skills_dir / group_name
+        if not group_dir.is_dir():
+            continue
+        for skill_md in sorted(group_dir.glob("*/SKILL.md")):
+            skill_name = skill_md.parent.name
+            if skill_name not in seen:
+                seen.add(skill_name)
+                result.append(Resource(
+                    name=skill_name,
+                    path=skill_md.parent,
+                    group=group_name,
+                ))
+
+    result.sort(key=lambda r: r.name)
     return result
 
 
@@ -117,19 +169,29 @@ def _parse_frontmatter(text: str) -> dict[str, str]:
 
 
 def discover_mcps(claude_repo: Path) -> list[MCP]:
-    """Discover MCP servers from $CLAUDE_REPO/mcps/*/config.json."""
+    """Discover MCP servers from ``$CLAUDE_REPO/mcps/*/config.json``.
+
+    Also scans one level deeper to support grouped layouts such as
+    ``mcps/third_party/context7/config.json``.  The group directory is
+    recorded on the MCP but stripped from the name.
+    """
     mcps_dir = claude_repo / "mcps"
     if not mcps_dir.is_dir():
         return []
-    result = []
-    for config_file in sorted(mcps_dir.glob("*/config.json")):
+
+    seen: set[str] = set()
+    result: list[MCP] = []
+
+    def _add_mcp(config_file: Path, group: str = "") -> None:
         mcp_name = config_file.parent.name
+        if mcp_name in seen:
+            return
+        seen.add(mcp_name)
         try:
             config = json.loads(config_file.read_text())
         except (json.JSONDecodeError, OSError):
-            continue
+            return
 
-        # Read description and command from README.md frontmatter
         description = ""
         binary = ""
         readme = config_file.parent / "README.md"
@@ -151,7 +213,24 @@ def discover_mcps(claude_repo: Path) -> list[MCP]:
             description=description,
             binary=binary,
             binary_found=binary_found,
+            group=group,
         ))
+
+    # Flat: mcps/*/config.json
+    for config_file in sorted(mcps_dir.glob("*/config.json")):
+        if config_file.parent.name in _GROUP_DIRS:
+            continue
+        _add_mcp(config_file)
+
+    # Grouped: mcps/{first_party,third_party}/*/config.json
+    for group_name in _GROUP_DIRS:
+        group_dir = mcps_dir / group_name
+        if not group_dir.is_dir():
+            continue
+        for config_file in sorted(group_dir.glob("*/config.json")):
+            _add_mcp(config_file, group=group_name)
+
+    result.sort(key=lambda r: r.name)
     return result
 
 

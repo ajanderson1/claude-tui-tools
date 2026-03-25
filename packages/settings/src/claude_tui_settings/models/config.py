@@ -28,6 +28,7 @@ class Resource:
     name: str
     path: Path
     folder: str = ""
+    group: str = ""  # e.g. "first_party", "third_party", or "" for flat
     is_local: bool = False
     is_broken_symlink: bool = False
 
@@ -46,6 +47,7 @@ class MCP:
     description: str = ""
     binary: str = ""
     binary_found: bool = True
+    group: str = ""  # e.g. "first_party", "third_party", or "" for flat
 
 
 @dataclass
