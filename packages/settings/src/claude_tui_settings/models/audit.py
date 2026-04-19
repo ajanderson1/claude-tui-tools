@@ -91,6 +91,10 @@ def run_audit(project_dir: Path) -> list[AuditWarning]:
     warnings: list[AuditWarning] = []
     scopes = scan_all_scopes(project_dir)
 
+    # Orphan MCPs in settings.local.json are a project-local issue and must
+    # be flagged regardless of how many scopes are present.
+    _audit_orphaned_mcps(project_dir, warnings)
+
     if len(scopes) < 2:
         return warnings
 
@@ -99,9 +103,6 @@ def run_audit(project_dir: Path) -> list[AuditWarning]:
 
     # Check for permission rule conflicts
     _audit_permission_conflicts(scopes, warnings)
-
-    # Check for orphaned MCPs in settings.local.json
-    _audit_orphaned_mcps(project_dir, warnings)
 
     return warnings
 
