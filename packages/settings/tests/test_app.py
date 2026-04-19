@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from claude_tui_settings.app import BootstrapApp, SECTIONS
+from claude_tui_settings.app import BootstrapApp
 from claude_tui_settings.models.config import (
     ConfigState,
     Hook,
@@ -74,7 +74,7 @@ async def test_app_renders(tmp_path):
     """Test that the app renders without errors."""
     config = _make_test_config(tmp_path)
     app = BootstrapApp(config=config)
-    async with app.run_test(size=(80, 24)) as pilot:
+    async with app.run_test(size=(80, 24)):
         # App should render
         assert app.is_running
 
@@ -84,7 +84,7 @@ async def test_sidebar_has_all_sections(tmp_path):
     """Test that sidebar contains all 11 sections."""
     config = _make_test_config(tmp_path)
     app = BootstrapApp(config=config)
-    async with app.run_test(size=(80, 24)) as pilot:
+    async with app.run_test(size=(80, 24)):
         from textual.widgets import OptionList
         sidebar = app.query_one("#sidebar-list", OptionList)
         assert sidebar.option_count == 11
@@ -113,7 +113,7 @@ async def test_overview_shows_no_changes(tmp_path):
     """Test overview shows no changes for matching config."""
     config = _make_test_config(tmp_path)
     app = BootstrapApp(config=config)
-    async with app.run_test(size=(80, 24)) as pilot:
+    async with app.run_test(size=(80, 24)):
         # Overview is shown by default
         from claude_tui_settings.widgets.overview import OverviewSection
         overview = app.query_one(OverviewSection)

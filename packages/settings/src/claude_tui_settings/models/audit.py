@@ -7,12 +7,12 @@ import platform
 from pathlib import Path
 from typing import Any
 
+from claude_tui_settings.models.config import AuditWarning
+
 
 def _escape_value(val: Any) -> str:
     """Escape a config value for safe embedding in Rich markup."""
     return str(val).replace("[", "\\[")
-
-from claude_tui_settings.models.config import AuditWarning
 
 
 def _get_managed_dir() -> Path:

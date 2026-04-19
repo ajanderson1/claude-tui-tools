@@ -77,8 +77,6 @@ def detect_resources(
     if not resource_dir.is_dir():
         return existing_names, local_resources
 
-    repo_base = claude_repo / resource_type
-
     for entry in sorted(resource_dir.rglob("*")):
         if entry.name.startswith("."):
             continue

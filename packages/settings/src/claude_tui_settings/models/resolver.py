@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from typing import Any
 
@@ -250,7 +249,6 @@ def _resolve_mcp_servers(project_dir: Path) -> list[ResolvedMCPServer]:
     result = []
     seen: set[str] = set()
 
-    user_claude_dir = Path.home() / ".claude"
     managed_dir = _get_managed_dir()
 
     # Precedence order for MCP configs

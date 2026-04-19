@@ -1,12 +1,10 @@
 """Tests for persistence module."""
 
 import json
-import os
-from pathlib import Path
 
 import pytest
 
-from claude_tui_settings.models.config import ConfigState, Hook, MCP, Plugin, Profile, Resource
+from claude_tui_settings.models.config import ConfigState, MCP, Profile, Resource
 from claude_tui_settings.models.persistence import apply_config
 
 

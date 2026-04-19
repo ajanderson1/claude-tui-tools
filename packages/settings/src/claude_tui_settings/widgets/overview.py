@@ -6,7 +6,7 @@ from textual.app import ComposeResult
 from textual.containers import VerticalScroll
 from textual.widgets import Input, Rule, Static
 
-from claude_tui_settings.models.config import ConfigState, Diff
+from claude_tui_settings.models.config import ConfigState
 
 
 class OverviewSection(VerticalScroll):

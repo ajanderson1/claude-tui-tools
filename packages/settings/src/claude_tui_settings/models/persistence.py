@@ -17,8 +17,6 @@ from claude_tui_settings.models.config import (
     _PROJECT_NOTE_PATTERN,
     ConfigState,
     Hook,
-    MCP,
-    SettingDef,
 )
 
 # Two-line block pattern for replacing project note in CLAUDE.md

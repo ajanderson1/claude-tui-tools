@@ -14,6 +14,29 @@ from textual.widgets import Footer, Header, OptionList, Static
 from textual.widgets._option_list import Option
 from textual.worker import Worker, WorkerState
 
+from claude_tui_settings.__about__ import __version__
+from claude_tui_settings.models.config import ConfigState, Preset
+from claude_tui_settings.models.persistence import apply_config
+from claude_tui_settings.models.presets import list_presets, save_preset, load_preset_into_state
+from claude_tui_settings.widgets.agents import make_agents_section
+from claude_tui_settings.widgets.commands import make_commands_section
+from claude_tui_settings.widgets.confirm_dialog import ConfirmDialog, ExitDialog, RevertDialog
+from claude_tui_settings.widgets.preset_dialogs import (
+    ConfirmLoadDialog,
+    LoadPresetDialog,
+    SavePresetDialog,
+)
+from claude_tui_settings.widgets.effective import EffectiveSection
+from claude_tui_settings.widgets.hooks import make_hooks_section
+from claude_tui_settings.widgets.instructions import InstructionsSection
+from claude_tui_settings.widgets.mcps import make_mcps_section
+from claude_tui_settings.widgets.overview import OverviewSection
+from claude_tui_settings.widgets.permissions import PermissionsSection
+from claude_tui_settings.widgets.plugins import make_plugins_section
+from claude_tui_settings.widgets.resource_list import ResourceToggled
+from claude_tui_settings.widgets.settings_tab import SettingChanged, SettingReverted, SettingsSection
+from claude_tui_settings.widgets.skills import make_skills_section
+
 PREFS_FILE = Path.home() / ".cache" / "claude-tui-settings" / "preferences.json"
 DEFAULT_THEME = "gruvbox"
 
@@ -37,29 +60,6 @@ def _save_theme(theme: str) -> None:
         pass
     prefs["theme"] = theme
     PREFS_FILE.write_text(json.dumps(prefs, indent=2))
-
-from claude_tui_settings.__about__ import __version__
-from claude_tui_settings.models.config import ConfigState, Preset
-from claude_tui_settings.models.persistence import apply_config
-from claude_tui_settings.models.presets import list_presets, save_preset, load_preset_into_state
-from claude_tui_settings.widgets.agents import make_agents_section
-from claude_tui_settings.widgets.commands import make_commands_section
-from claude_tui_settings.widgets.confirm_dialog import ConfirmDialog, ExitDialog, RevertDialog
-from claude_tui_settings.widgets.preset_dialogs import (
-    ConfirmLoadDialog,
-    LoadPresetDialog,
-    SavePresetDialog,
-)
-from claude_tui_settings.widgets.effective import EffectiveSection
-from claude_tui_settings.widgets.hooks import make_hooks_section
-from claude_tui_settings.widgets.instructions import InstructionsSection
-from claude_tui_settings.widgets.mcps import make_mcps_section
-from claude_tui_settings.widgets.overview import OverviewSection
-from claude_tui_settings.widgets.permissions import PermissionsSection
-from claude_tui_settings.widgets.plugins import make_plugins_section
-from claude_tui_settings.widgets.resource_list import ResourceToggled
-from claude_tui_settings.widgets.settings_tab import SettingChanged, SettingReverted, SettingsSection
-from claude_tui_settings.widgets.skills import make_skills_section
 
 
 # Section definitions: (id, label, is_understand_mode)

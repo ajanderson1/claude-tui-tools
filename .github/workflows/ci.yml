@@ -20,14 +20,12 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install -e ".[all]"
+        run: |
+          pip install -e packages/settings
+          pip install ruff pytest pytest-asyncio
 
       - name: Lint
-        run: |
-          pip install ruff
-          ruff check .
+        run: ruff check packages/settings
 
       - name: Test
-        run: |
-          pip install pytest pytest-asyncio
-          pytest packages/settings/tests/ -v
+        run: pytest packages/settings/tests/ -v

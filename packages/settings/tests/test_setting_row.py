@@ -1,7 +1,6 @@
 """Unit tests for SettingRow widget — scope transitions and control value setting."""
 
 import json
-from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -15,7 +14,7 @@ from claude_tui_settings.models.config import (
     SettingDef,
     _NO_VALUE,
 )
-from claude_tui_settings.widgets.settings_tab import SettingRow, SettingsSection
+from claude_tui_settings.widgets.settings_tab import SettingRow
 
 
 def _make_config(
