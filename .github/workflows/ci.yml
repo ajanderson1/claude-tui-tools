@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Python — test & lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -e ".[all]"
+
+      - name: Lint
+        run: |
+          pip install ruff
+          ruff check .
+
+      - name: Test
+        run: |
+          pip install pytest pytest-asyncio
+          pytest packages/settings/tests/ -v

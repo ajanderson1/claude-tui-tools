@@ -95,3 +95,9 @@ audit-*.json
 docs/
 .fix-issue
 packages/usage/
+
+# ---------------------------
+# Appended by dev_aj/adopt
+# ---------------------------
+AGENTS.md
+.fix-issue/

@@ -1,4 +1,12 @@
 # CLAUDE.md
+<!-- BEGIN:PROJECT_NOTE -->
+## Project Note
+
+This project's Obsidian project note: `/Users/ajanderson/Journal/Atlas/Claude TUI Tools.md`
+
+Read this note at the start of every session to understand current status, decisions, and context.
+Update it when you complete significant work, make architectural decisions, or change direction.
+<!-- END:PROJECT_NOTE -->
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
